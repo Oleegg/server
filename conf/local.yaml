@@ -1,5 +1,5 @@
 http:
-    port: 4000
+    port: 3001
     timeout: 30000
 db:
     postgres:

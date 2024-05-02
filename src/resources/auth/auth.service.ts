@@ -44,23 +44,23 @@ export class AuthService {
     }
   }
 
-  decodeToken(token: string): UserEntity {
-    try {
-      return this.jwtService.verify(token);
-    } catch (error: any) {
-      throw new HttpException(
-        'Authorization token expired',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
-
   generateToken(user: UserEntity): string {
     try {
       return this.jwtService.sign({ email: user.email, id: user.id });
     } catch (error: any) {
       throw new HttpException(
         'Authorization token invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  decodeToken(token: string): UserEntity {
+    try {
+      return this.jwtService.verify(token);
+    } catch (error: any) {
+      throw new HttpException(
+        'Authorization token expired',
         HttpStatus.BAD_REQUEST,
       );
     }
