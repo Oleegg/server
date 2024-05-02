@@ -1,0 +1,14 @@
+http:
+    port: 4000
+    timeout: 30000
+db:
+    postgres:
+        host: 'localhost'
+        database: 'test'
+        port: 5432
+        username: 'oleg'
+        password: 'n'
+cors:
+    credentials: true
+    origin:
+        - 'http://localhost:3000'
