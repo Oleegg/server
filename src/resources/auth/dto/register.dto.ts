@@ -12,4 +12,7 @@ export class SigninUserDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  nickname: string;
 }

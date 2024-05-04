@@ -21,16 +21,16 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post(REGISTER)
-  async createStateUser(
+  async createUser(
     @Body()
     signinUserDto: SigninUserDto,
   ): Promise<AuthUserResponse> {
-    return await this.authService.createStateUser(signinUserDto);
+    return await this.authService.createUser(signinUserDto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post(LOG_IN)
-  async loginPassword(
+  async loginUser(
     @Body()
     loginUserDto: LoginUserDto,
   ): Promise<AuthUserResponse> {

@@ -46,6 +46,20 @@ export class UserService {
 
   async update(id: number, payload: UpdateUserPayload): Promise<UserEntity> {
     const user = await this.findById(id);
+    if (payload.nickname) {
+      const userByNickName = await this.userRepository.findOne({
+        where: {
+          nickname: payload.nickname,
+        },
+      });
+
+      if (userByNickName && userByNickName.id !== id) {
+        throw new HttpException(
+          'Пользователь с таким никнэймом уже существует',
+          HttpStatus.UNPROCESSABLE_ENTITY,
+        );
+      }
+    }
 
     const userEntity = new UserEntity();
 
