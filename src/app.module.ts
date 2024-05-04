@@ -8,6 +8,7 @@ import { UserModule } from 'resources/users/user.module';
 import config from 'config/settings';
 import { ormConnectionConfig } from 'config/ormdatasource';
 import { AuthMiddleware } from 'resources/auth/middlewares/auth.middleware';
+import { ListModule } from 'resources/goodDeedList/list.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthMiddleware } from 'resources/auth/middlewares/auth.middleware';
     TypeOrmModule.forRoot(ormConnectionConfig),
     AuthModule,
     UserModule,
+    ListModule,
   ],
   controllers: [AppController],
   providers: [AppService],
