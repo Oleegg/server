@@ -25,7 +25,7 @@ export class AuthService {
       where: {
         email: email,
       },
-      select: ['password', 'name', 'email', 'id'],
+      select: ['password', 'name', 'email', 'id', 'nickname'],
     });
 
     if (!user) {
@@ -81,8 +81,8 @@ export class AuthService {
     } as AuthUserResponse;
   }
 
-  async createStateUser(registerData: AuthPayload): Promise<AuthUserResponse> {
-    const { email } = registerData;
+  async createUser(registerData: AuthPayload): Promise<AuthUserResponse> {
+    const { email, nickname } = registerData;
 
     const userByEmail = await this.userRepository.findOne({
       where: {
@@ -93,6 +93,19 @@ export class AuthService {
     if (userByEmail) {
       throw new HttpException(
         'Пользователь с таким адресом электронной почты уже существует',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    const userByNickName = await this.userRepository.findOne({
+      where: {
+        nickname: nickname,
+      },
+    });
+
+    if (userByNickName) {
+      throw new HttpException(
+        'Пользователь с таким никнэймом уже существует',
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
