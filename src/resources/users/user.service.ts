@@ -34,14 +34,13 @@ export class UserService {
 
   async delete(id: number, userId: number): Promise<UserDeleteResponse> {
     const user = await this.findById(id);
-
     if (user.id !== userId) {
       throw new HttpException(
         'Вы не можете удалять других пользователей',
         HttpStatus.FORBIDDEN,
       );
     }
-
+    // добавить удаление списка друзей и список дел
     return await this.userRepository.remove(user);
   }
 

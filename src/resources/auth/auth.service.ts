@@ -2,7 +2,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthPayload, AuthUserResponse } from './types/auth.types';
+import {
+  AuthLogin,
+  AuthPayload,
+  AuthUserResponse,
+  TokenResponse,
+} from './types/auth.types';
 import { UserEntity } from '../users/user.entity';
 import { excludeKeys } from 'src/utils';
 
@@ -14,13 +19,13 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async authorizeUser(loginParams: AuthPayload): Promise<AuthUserResponse> {
+  async authorizeUser(loginParams: AuthLogin): Promise<AuthUserResponse> {
     const { email } = loginParams;
     const user = await this.userRepository.findOne({
       where: {
         email: email,
       },
-      select: ['password', 'name', 'email'],
+      select: ['password', 'name', 'email', 'id'],
     });
 
     if (!user) {
@@ -46,7 +51,10 @@ export class AuthService {
 
   generateToken(user: UserEntity): string {
     try {
-      return this.jwtService.sign({ email: user.email, id: user.id });
+      return this.jwtService.sign({
+        email: user.email,
+        id: user.id,
+      });
     } catch (error: any) {
       throw new HttpException(
         'Authorization token invalid',
@@ -55,7 +63,7 @@ export class AuthService {
     }
   }
 
-  decodeToken(token: string): UserEntity {
+  decodeToken(token: string): TokenResponse {
     try {
       return this.jwtService.verify(token);
     } catch (error: any) {
@@ -73,7 +81,7 @@ export class AuthService {
     } as AuthUserResponse;
   }
 
-  async createUser(registerData: AuthPayload): Promise<AuthUserResponse> {
+  async createStateUser(registerData: AuthPayload): Promise<AuthUserResponse> {
     const { email } = registerData;
 
     const userByEmail = await this.userRepository.findOne({

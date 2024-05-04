@@ -6,16 +6,17 @@ export type AuthPayload = {
   password: string;
 };
 
+export type TokenResponse = {
+  email: string;
+  id: number;
+  iat: number;
+  exp: number;
+};
+
 type AuthUserEntityResponse = Omit<UserEntity, 'password'>;
+
+export type AuthLogin = Omit<AuthPayload, 'name'>;
 
 export interface AuthUserResponse extends AuthUserEntityResponse {
   token: string;
-}
-
-interface UserAuth {
-  phone: string;
-}
-
-export interface UserAuthPassword extends UserAuth {
-  password: string;
 }

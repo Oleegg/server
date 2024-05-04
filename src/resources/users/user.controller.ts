@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import { USERS } from 'src/constants/routes';
 import { UserDeleteResponse, UserResponse } from './types/user.types';
 import { UpdateUserDto } from './dto/update';
+import { User } from './decorators/user.decorator';
 
 @Controller(USERS)
 export class UserController {
@@ -31,7 +32,7 @@ export class UserController {
 
   @Delete(':id')
   async delete(
-    userId: number,
+    @User('id') userId: number,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<UserDeleteResponse> {
     return await this.usersService.delete(id, userId);

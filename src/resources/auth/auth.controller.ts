@@ -12,7 +12,8 @@ import { AUTH, LOG_IN, REGISTER, USER } from 'src/constants/routes';
 import { SigninUserDto } from './dto/register.dto';
 import { AuthUserResponse } from './types/auth.types';
 import { LoginUserDto } from './dto/login.dto';
-import { UserEntity } from '../users/user.entity';
+import { User } from 'resources/users/decorators/user.decorator';
+import { UserEntity } from 'resources/users/user.entity';
 
 @Controller(AUTH)
 export class AuthController {
@@ -20,11 +21,11 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post(REGISTER)
-  async createUser(
+  async createStateUser(
     @Body()
     signinUserDto: SigninUserDto,
   ): Promise<AuthUserResponse> {
-    return await this.authService.createUser(signinUserDto);
+    return await this.authService.createStateUser(signinUserDto);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -37,7 +38,7 @@ export class AuthController {
   }
 
   @Get(USER)
-  async currentUser(user: UserEntity): Promise<AuthUserResponse> {
+  async currentUser(@User() user: UserEntity): Promise<AuthUserResponse> {
     return this.authService.createUserResponse(user);
   }
 }
