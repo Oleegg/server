@@ -9,9 +9,9 @@ import {
   Relation,
 } from 'typeorm';
 
-const { LISTS } = TableNames;
+const { LIST } = TableNames;
 
-@Entity(LISTS)
+@Entity(LIST)
 export class ListEntity {
   @PrimaryGeneratedColumn('increment', { type: 'integer' })
   id: number;
