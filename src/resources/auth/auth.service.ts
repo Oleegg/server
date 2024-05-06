@@ -112,7 +112,7 @@ export class AuthService {
 
     const userEntity = new UserEntity();
     const user = await this.userRepository.save(
-      Object.assign(userEntity, { ...registerData }),
+      Object.assign(userEntity, { ...registerData, friend: [] }),
     );
 
     return this.createUserResponse(user);

@@ -2,7 +2,11 @@ import { Repository } from 'typeorm';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
-import { UpdateUserPayload, UserDeleteResponse } from './types/user.types';
+import {
+  SearchUserPayload,
+  UpdateUserPayload,
+  UserDeleteResponse,
+} from './types/user.types';
 
 @Injectable()
 export class UserService {
@@ -13,6 +17,24 @@ export class UserService {
 
   async findAll(): Promise<UserEntity[]> {
     return await this.userRepository.find();
+  }
+
+  async findByNick(params: SearchUserPayload): Promise<UserEntity> {
+    const { nick } = params;
+    const user = await this.userRepository.findOne({
+      where: {
+        nickname: nick,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        `Пользователь с ником ${nick} не найден`,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    return user;
   }
 
   async findById(id: number): Promise<UserEntity> {
@@ -40,7 +62,6 @@ export class UserService {
         HttpStatus.FORBIDDEN,
       );
     }
-    // добавить удаление списка друзей и список дел
     return await this.userRepository.remove(user);
   }
 

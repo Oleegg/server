@@ -1,4 +1,10 @@
-import { IsString, IsOptional, MinLength, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  MinLength,
+  MaxLength,
+  IsArray,
+} from 'class-validator';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -12,4 +18,12 @@ export class UpdateUserDto {
   @MinLength(3)
   @MaxLength(30)
   newPassword?: string;
+
+  @IsOptional()
+  @IsArray()
+  list?: string[];
+
+  @IsOptional()
+  @IsArray()
+  friend?: string[];
 }

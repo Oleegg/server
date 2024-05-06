@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateListDto {
+export class SearchUserDto {
   @IsNotEmpty()
-  todo: string;
+  nick: string;
 }

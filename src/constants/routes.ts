@@ -4,5 +4,4 @@ export const USER = 'user';
 export const LOG_IN = 'login';
 export const REGISTER = 'register';
 export const SEARCH = 'search';
-export const LIST = 'list';
 export const CREATE = 'create';
